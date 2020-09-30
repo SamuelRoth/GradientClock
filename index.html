@@ -34,6 +34,21 @@
   background-color: rgba(0,0,0,0.5);
   z-index: 5;  
 }
+a:link {
+  color: white;
+}
+
+a:visited {
+  color: white;
+}
+
+a:hover {
+  color: white;
+}
+
+a:active {
+  color: white;
+}
 
 </style>
 </head>
@@ -52,6 +67,15 @@ jscolor.presets.default = {
 	Hour High Color: <br/><input data-jscolor="" name="hourHigh" id ="hourHigh" value="#FFF800"><br/><br/>
     Minute Low Color: <br/><input data-jscolor="" name="hourLow" id ="minuteLow" value="#FF0000"><br/><br/>
 	Minute High Color: <br/><input data-jscolor="" name="hourHigh" id ="minuteHigh" value="#0000FF"><br/><br/>
+    <h1>About Gradient Clock</h1>
+    Gradient Clock is an <a href="https://github.com/SamuelRoth/GradientClock">open source</a> project by Sam Roth.<br><br>
+    This is a clock without numbers or hands, but instead colors.<br><br>
+
+Four colors are picked, as set in the UI above.<br><br>
+
+Based on how many seconds in the day have passed, the color on the left side of the gradient is set along an equivalent point in the spectrum between the Hour Low and Hour High color. Then, based on how many seconds in the current hour have passed, the color on the right side of the gradient is set.<br><br>
+
+Note that the "high" color is actually show halfway through the day or the hour so that there is a smooth transition up to the "high" color and back down to the "low" color each day and each hour, rather than having a hard reset at the top of each day/hour.<br><br>
     <button onclick="overlayOff()">Close Overlay</button>
 </div>
 <script>
