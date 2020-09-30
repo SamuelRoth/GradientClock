@@ -32,7 +32,9 @@
   font-family: "Segoe UI",Arial,sans-serif;
   font-weight: 600;
   background-color: rgba(0,0,0,0.5);
-  z-index: 5;  
+  z-index: 5;
+  overflow: scroll;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 a:link {
   color: white;
@@ -68,6 +70,7 @@ jscolor.presets.default = {
     Minute Low Color: <br/><input data-jscolor="" name="hourLow" id ="minuteLow" value="#FF0000"><br/><br/>
 	Minute High Color: <br/><input data-jscolor="" name="hourHigh" id ="minuteHigh" value="#0000FF"><br/><br/>
     <button onclick="restoreDefaults()">Restore Defaults</button><br/><br/>
+    <button onclick="overlayOff()">Close Overlay</button><br/><br/>
     <h1>About Gradient Clock</h1>
     Gradient Clock is an <a href="https://github.com/SamuelRoth/GradientClock">open source</a> project by Sam Roth.<br><br>
     This is a clock without numbers or hands, but instead colors.<br><br>
@@ -76,19 +79,18 @@ Four colors are picked, as set in the UI above.<br><br>
 
 Based on how many seconds in the day have passed, the color on the left side of the gradient is set along an equivalent point in the spectrum between the Hour Low and Hour High color. Then, based on how many seconds in the current hour have passed, the color on the right side of the gradient is set.<br><br>
 
-Note that the "high" color is actually show halfway through the day or the hour so that there is a smooth transition up to the "high" color and back down to the "low" color each day and each hour, rather than having a hard reset at the top of each day/hour.<br><br>
-    <button onclick="overlayOff()">Close Overlay</button>
+Note that the "high" color is actually show halfway through the day or the hour so that there is a smooth transition up to the "high" color and back down to the "low" color each day and each hour, rather than having a hard reset at the top of each day/hour.
 </div>
 <script>
 //Might add a UI later, but for now, this is where I set the 4 colors for the gradients.
-if(typeof(localStorage.getItem("hourLow"))=='undefined'){
+if (localStorage.getItem("hourLow") === null){
 	var hourLow = "#FF0000"; 
 }
 else{
 	var hourLow = JSON.parse(localStorage.getItem('hourLow'));
 }
 document.getElementById("hourLow").value = hourLow;
-if(typeof(localStorage.getItem("hourHigh"))=='undefined'){
+if (localStorage.getItem("hourHigh") === null){
 	var hourHigh = "#FFF800"; 
 }
 else {
@@ -96,7 +98,7 @@ else {
 }
 document.getElementById("hourHigh").value = hourHigh;
 
-if(typeof(localStorage.getItem("minuteLow"))=='undefined'){
+if (localStorage.getItem("minuteLow") === null){
 	var minuteLow = "#FF0000"; 
 }
 else {
@@ -104,7 +106,7 @@ else {
     }
 document.getElementById("minuteLow").value = minuteLow;
 
-if(typeof(localStorage.getItem("minuteHigh"))=='undefined'){
+if (localStorage.getItem("minuteHigh") === null){
 	var minuteHigh = "#0000FF"; 
 }
 else{
