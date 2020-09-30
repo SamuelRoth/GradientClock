@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+//Might add a UI later, but for now, this is where I set the 4 colors for the gradients.
+var hourLow = "FF0000";
+var hourHigh = "FFF800";
+var minuteLow = "FF0000";
+var minuteHigh = "0000FF";
+
+//Calculate what percentage of the day is complete for the hours color on the left.
+function dayCompletion(){
+	var date = new Date();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	var totalSeconds = (hours*3600)+(minutes*60)+seconds;
+	var completion = totalSeconds/86400;
+    return completion;
+}
+
+//Calculate what percentage of the hour is complete for the minutes color on the right.
+function hourCompletion(){
+	var date = new Date();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	var totalSeconds = (minutes*60)+seconds;
+	var completion = totalSeconds/3600;
+    return completion;
+}
+
+//Just some debug code for those functions:
+//var currentTime = "Day Completion Percentage = " + dayCompletion() +". Hour Completion Percentage = " + hourCompletion();
+
+//Functions to convert the hex color value to decimal and back
+function dec2hex(v) {return v.toString(16);}
+function hex2dec(v) {return parseInt(v,16);}
+
+//Function to find the average between two colors, no longer actually called.
+//function averageTheColor(color1, color2){
+//    var c1R = color1.substring(0, 2);
+//    var c2R = color2.substring(0, 2);
+//    var c1G = color1.substring(2, 4);
+//    var c2G = color2.substring(2, 4);
+//    var c1B = color1.substring(4, 6);
+//    var c2B = color2.substring(4, 6);
+//    var averageR = dec2hex((hex2dec(c1R) + hex2dec(c2R)) / 2);
+//    var averageG = dec2hex((hex2dec(c1G) + hex2dec(c2G)) / 2);
+//    var averageB = dec2hex((hex2dec(c1B) + hex2dec(c2B)) / 2);
+//    if (averageR.length < 2){averageR = "0"+averageR;}
+//    if (averageG.length < 2){averageG = "0"+averageG;}
+//    if (averageB.length < 2){averageB = "0"+averageB;}
+//    var averageColor = "#" + averageR.substring(0,2) + averageG.substring(0,2) + averageB.substring(0,2);
+//    return averageColor;
+//}
+//Debug code for the Average Function:
+//var averageColorTest = averageTheColor("FFFFFF","000000");
+
+//Function to find the color for the hour side.
+function findHourColor(color1,color2){
+//break the two colors into their R,G,B channels
+	var c1R = color1.substring(0, 2);
+    var c2R = color2.substring(0, 2);
+    var c1G = color1.substring(2, 4);
+    var c2G = color2.substring(2, 4);
+    var c1B = color1.substring(4, 6);
+    var c2B = color2.substring(4, 6);
+    var percentage = dayCompletion();
+//convert each channel to a decimal, find the difference between the two colors, then add an equivalent percentage of that difference to day completion to determine the current color, converting that back to hex.
+    var diffR = hex2dec(c1R) - hex2dec(c2R);
+    var newR = dec2hex(hex2dec(c1R) - (diffR*percentage));
+    var diffG = hex2dec(c1G) - hex2dec(c2G);
+    var newG = dec2hex(hex2dec(c1G) - (diffG*percentage));
+    var diffB = hex2dec(c1B) - hex2dec(c2B);
+    var newB = dec2hex(hex2dec(c1B) - (diffB*percentage));
+//Bring the new R,G,B values to 2 characters and make sure one of them isn't a decimal.
+    if (newR.length < 2 || newR.substring(1,2) == "."){newR = "0"+newR;}
+    if (newG.length < 2 || newG.substring(1,2) == "."){newG = "0"+newG;}
+    if (newB.length < 2 || newB.substring(1,2) == "."){newB = "0"+newB;}
+//Put R,G,B together and format as a hex color
+    var timedColor = "#" + newR.substring(0,2) + newG.substring(0,2) + newB.substring(0,2);
+    return timedColor;
+}
+//Debug Code for this function:
+//var hourlyColorTest = findHourColor("000000","999999");
+
+
+//Same function, but this time calculates the difference in minute-side colors based on completion of the hour.
+function findMinuteColor(color1,color2){
+	var c1R = color1.substring(0, 2);
+    var c2R = color2.substring(0, 2);
+    var c1G = color1.substring(2, 4);
+    var c2G = color2.substring(2, 4);
+    var c1B = color1.substring(4, 6);
+    var c2B = color2.substring(4, 6);
+    var percentage = hourCompletion();
+    var diffR = hex2dec(c1R) - hex2dec(c2R);
+    var newR = dec2hex(hex2dec(c1R) - (diffR*percentage));
+    var diffG = hex2dec(c1G) - hex2dec(c2G);
+    var newG = dec2hex(hex2dec(c1G) - (diffG*percentage));
+    var diffB = hex2dec(c1B) - hex2dec(c2B);
+    var newB = dec2hex(hex2dec(c1B) - (diffB*percentage));
+    if (newR.length < 2 || newR.substring(1,2) == "."){newR = "0"+newR;}
+    if (newG.length < 2 || newG.substring(1,2) == "."){newG = "0"+newG;}
+    if (newB.length < 2 || newB.substring(1,2) == "."){newB = "0"+newB;}
+    var timedColor = "#" + newR.substring(0,2) + newG.substring(0,2) + newB.substring(0,2);
+    return timedColor;
+}
+//Debug code for the minuteColor function:
+//var minutelyColorTest = findMinuteColor("000000","999999");
+
+//Function to run once per second - set the background gradient to the current hour and minute color.
+setInterval(setGradient, 1000);
+function setGradient(){
+	var theGradient = "linear-gradient(to right," + findHourColor(hourLow,hourHigh) + "," + findMinuteColor(minuteLow,minuteHigh) + ")"
+	document.body.style.backgroundImage = theGradient;
+}
+//run the function once manually so the page isn't blank white for the first second.
+setGradient();
+
+
+
+</script>
+
+<!--<button onclick="document.body.style.backgroundImage = gradientSet">Add Gradient</button>
+
+<button onclick="document.getElementById('text').innerHTML=averagedColor">Average 2 Colors</button>
+
+<button onclick="document.getElementById('text').innerHTML=hourColor">Color Per Time</button>
+<p id="text">xzczc</p>-->
+
+</body>
+</html>
