@@ -29,6 +29,8 @@
   padding-left: 10px;
   font-size: 12px;
   color: white;
+  font-family: "Segoe UI",Arial,sans-serif;
+  font-weight: 600;
   background-color: rgba(0,0,0,0.5);
   z-index: 5;  
 }
@@ -36,16 +38,22 @@
 </style>
 </head>
 <body>
+<script src="https://gradientclock.com/jscolor.js"></script>
+
+<script>
+jscolor.presets.default = {
+	format:'hex'
+};
+</script>
 
 <div id="overlayActivator" onclick="overlayOn()"></div>
-<div id="overlay" onclick="overlayOff()">
-	Hour Low Color: <br/><input type="text" name="hourLow" id ="hourLow" value="FF0000"><br/><br/>
-	Hour High Color: <br/><input type="text" name="hourHigh" id ="hourHigh" value="FFF800"><br/><br/>
-    Minute Low Color: <br/><input type="text" name="hourLow" id ="minuteLow" value="FF0000"><br/><br/>
-	Minute High Color: <br/><input type="text" name="hourHigh" id ="minuteHigh" value="0000FF"><br/><br/>
+<div id="overlay">
+	Hour Low Color: <br/><input data-jscolor="" name="hourLow" id ="hourLow" value="#FF0000"><br/><br/>
+	Hour High Color: <br/><input data-jscolor="" name="hourHigh" id ="hourHigh" value="#FFF800"><br/><br/>
+    Minute Low Color: <br/><input data-jscolor="" name="hourLow" id ="minuteLow" value="#FF0000"><br/><br/>
+	Minute High Color: <br/><input data-jscolor="" name="hourHigh" id ="minuteHigh" value="#0000FF"><br/><br/>
     <button onclick="overlayOff()">Close Overlay</button>
 </div>
-
 <script>
 //Might add a UI later, but for now, this is where I set the 4 colors for the gradients.
 var hourLow = document.getElementById("hourLow").value;
@@ -103,6 +111,14 @@ function hex2dec(v) {return parseInt(v,16);}
 
 //Function to find the color for the hour side.
 function findHourColor(color1,color2){
+	while(color1.charAt(0) === '#')
+		{
+ 			color1 = color1.substring(1);
+		}
+    while(color2.charAt(0) === '#')
+		{
+ 			color2 = color2.substring(1);
+		}
 //break the two colors into their R,G,B channels
 	var c1R = color1.substring(0, 2);
     var c2R = color2.substring(0, 2);
@@ -135,6 +151,14 @@ function findHourColor(color1,color2){
 
 //Same function, but this time calculates the difference in minute-side colors based on completion of the hour.
 function findMinuteColor(color1,color2){
+    while(color1.charAt(0) === '#')
+		{
+ 			color1 = color1.substring(1);
+		}
+    while(color2.charAt(0) === '#')
+		{
+ 			color2 = color2.substring(1);
+		}
 	var c1R = color1.substring(0, 2);
     var c2R = color2.substring(0, 2);
     var c1G = color1.substring(2, 4);
