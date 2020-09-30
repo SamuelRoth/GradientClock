@@ -67,6 +67,9 @@ function findHourColor(color1,color2){
     var c1B = color1.substring(4, 6);
     var c2B = color2.substring(4, 6);
     var percentage = dayCompletion();
+    //checks if it's before or after halfway, then makes the percentage count up or down as a result.
+    if (percentage >= .5) {percentage = (1-((percentage-.5)*2));}
+    else {percentage = percentage*2;}
 //convert each channel to a decimal, find the difference between the two colors, then add an equivalent percentage of that difference to day completion to determine the current color, converting that back to hex.
     var diffR = hex2dec(c1R) - hex2dec(c2R);
     var newR = dec2hex(hex2dec(c1R) - (diffR*percentage));
@@ -95,6 +98,9 @@ function findMinuteColor(color1,color2){
     var c1B = color1.substring(4, 6);
     var c2B = color2.substring(4, 6);
     var percentage = hourCompletion();
+    //checks if it's before or after halfway, then makes the percentage count up or down as a result.
+    if (percentage >= .5) {percentage = (1-((percentage-.5)*2));}
+    else {percentage = percentage*2;}
     var diffR = hex2dec(c1R) - hex2dec(c2R);
     var newR = dec2hex(hex2dec(c1R) - (diffR*percentage));
     var diffG = hex2dec(c1G) - hex2dec(c2G);
