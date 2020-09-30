@@ -84,6 +84,14 @@ var hourLow = document.getElementById("hourLow").value;
 var hourHigh = document.getElementById("hourHigh").value;
 var minuteLow = document.getElementById("minuteLow").value;
 var minuteHigh = document.getElementById("minuteHigh").value;
+hourLow = JSON.parse(localStorage.getItem('hourLow'));
+document.getElementById("hourLow").value = hourLow;
+hourHigh = JSON.parse(localStorage.getItem('hourHigh'));
+document.getElementById("hourHigh").value = hourHigh;
+minuteLow = JSON.parse(localStorage.getItem('minuteLow'));
+document.getElementById("minuteLow").value = minuteLow;
+minuteHigh = JSON.parse(localStorage.getItem('minuteHigh'));
+document.getElementById("minuteHigh").value = minuteHigh;
 
 //Calculate what percentage of the day is complete for the hours color on the left.
 function dayCompletion(){
@@ -226,6 +234,14 @@ function overlayOn() {
 }
 
 function overlayOff() {
+  var hourLow = document.getElementById("hourLow").value;
+  var hourHigh = document.getElementById("hourHigh").value;
+  var minuteLow = document.getElementById("minuteLow").value;
+  var minuteHigh = document.getElementById("minuteHigh").value;
+  localStorage.setItem('hourLow', JSON.stringify(hourLow));
+  localStorage.setItem('hourHigh', JSON.stringify(hourHigh));
+  localStorage.setItem('minuteLow', JSON.stringify(minuteLow));
+  localStorage.setItem('minuteHigh', JSON.stringify(minuteHigh));
   document.getElementById("overlay").style.display = "none";
 }
 </script>
