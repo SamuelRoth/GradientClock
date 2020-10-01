@@ -1,5 +1,5 @@
 # GradientClock
-Gradient Clock is an open source project by Sam Roth, the current production version can be seen at https://gradientclock.com.
+Gradient Clock is an open source project, the current production version can be seen at https://gradientclock.com.
 
 This page shows a gradient which acts as a clock without numbers or hands.
 
